@@ -67,8 +67,8 @@ def add_server():
 
     subprocess.run(["service", "nginx", "stop"])
     subprocess.run(["nginx"])
-    # subprocess.run(certbot.split(" "))
-    print(certbot)
+    subprocess.run(certbot.split(" "))
+    # print(certbot)
     subprocess.run(["service", "nginx", "stop"])
 
     proc = subprocess.run(["nginx", "-g", "daemon off;"])
