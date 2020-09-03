@@ -10,8 +10,10 @@ services:
 
     volumes:
       - webcode:/code
+      - certs:/etc/letsencrypt/
 
 volumes:
+  certs:
   webcode:
       external: true
 
