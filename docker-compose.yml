@@ -6,6 +6,7 @@ services:
     build: .
     ports:
       - "${PORT}:80"
+      - "443:433"
 
     volumes:
       - webcode:/code
