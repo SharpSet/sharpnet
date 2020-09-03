@@ -5,4 +5,3 @@ sudo docker volume rm $(sudo docker volume ls --filter dangling=true -q)
 
 sudo docker network create mca-corp
 sudo docker volume create webcode
-sudo docker-compose up --build
