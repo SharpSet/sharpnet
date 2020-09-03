@@ -1,0 +1,20 @@
+version: 0.1
+
+scripts:
+  network: sudo docker network create mca-corp
+  volume: sudo docker volume create --name=webcode
+  remove: sudo docker volume rm -f webcode
+
+  run: |
+    sudo docker-compose down && sudo docker-compose up --build
+
+  server: |
+    cd websites/test${SHARP_ARG_1} &&\
+    sudo docker-compose down && sudo docker-compose up --build &&\
+    cd ../../
+
+
+  conf: |
+    sudo docker-compose exec mcacorp_nginx cat /etc/nginx/conf.d/site.conf
+
+  logs: sudo docker-compose logs -f
