@@ -34,7 +34,7 @@ class Servers():
                     f"    fastcgi_param SCRIPT_FILENAME /code/{server.phpcontainer}/app.php;\n"
                     f"  }}\n"
 
-                    f"  location ~ \.(jpg|png|css|js|html|json|svg) {{"
+                    f"  location ~ \.(jpg|png|css|js|html|json|svg|jpeg) {{"
                     f"    try_files $uri =404;\n"
                     f"  }}\n"
                     "}\n"
