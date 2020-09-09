@@ -1,4 +1,5 @@
 import subprocess
+import os
 from flask import Flask, request
 
 
@@ -58,23 +59,27 @@ app = Flask(__name__)
 @app.route('/', methods=["POST"])
 def add_server():
 
+    open('/etc/nginx/conf.d/site.conf', 'w').close()
+    subprocess.run(["service", "nginx", "stop"])
+    subprocess.run(["nginx"])
+
     certbot = "certbot --nginx --email adam@mcaq.me --agree-tos --redirect --noninteractive --expand"
 
     server = Server(request.values)
     if server not in servers.list:
         servers.list.append(server)
     certbot = servers.save(certbot)
-
-    subprocess.run(["service", "nginx", "stop"])
-    subprocess.run(["nginx"])
     subprocess.run(certbot.split(" "))
     # print(certbot)
-    subprocess.run(["service", "nginx", "stop"])
 
+    subprocess.run(["service", "nginx", "stop"])
     proc = subprocess.run(["nginx", "-g", "daemon off;"])
     if proc.returncode != 0:
         print(proc.stderr)
         exit(1)
+
+    else:
+        print(f"Started up server {server}")
 
 
 servers = Servers()
