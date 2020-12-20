@@ -10,10 +10,15 @@ scripts:
 
   server: |
     cd websites/test${SHARP_ARG_1} &&\
-    sudo docker-compose down && sudo docker-compose up --build --remove-orphans&&\
+    sudo docker-compose down && sudo docker-compose up --build --remove-orphans &&\
     cd ../../
 
   conf: |
+    cd websites/test${SHARP_ARG_1} &&\
+    sudo docker-compose exec test${SHARP_ARG_1} cat /etc/nginx/conf.d/site.conf
+    cd ../../
+
+  confmain: |
     sudo docker-compose exec sharpnet cat /etc/nginx/conf.d/site.conf
 
   logs: sudo docker-compose logs -f

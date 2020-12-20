@@ -6,11 +6,19 @@ import json
 import re
 
 previous_run = 0
+new = True
 containers = 0
 config = ""
-servers = []
+error = False
+
+if os.environ.get("PRODUCTION") is None:
+    network = "sharpnet_testing"
+
+else:
+    network = "sharpnet"
 while True:
-    out = subprocess.check_output(["sh", "-c", "docker network inspect sharpnet"])
+    servers = []
+    out = subprocess.check_output(["sh", "-c", f"docker network inspect {network}"])
     data = json.loads(out)[0]
 
     if len(data["Containers"]) > previous_run:
@@ -35,30 +43,39 @@ while True:
                 else:
                     out.write(config + "\n")
 
-                    print(f"Taken container {name}'s nginx config")
-                    containers += 1
-
-                    server = re.search('server_name(.*);', config)
-                    servers.append(server.group(1).replace(" ", ""))
+                    matches = re.search('server_name(.*);', config)
+                    if matches is None:
+                        print("No server_name variable found, skipping")
+                    else:
+                        for server in matches.groups():
+                            for subdomain in server.strip().split(" "):
+                                servers.append(subdomain.replace(" ", ""))
+                        print(f"Taken container {name}'s nginx config")
+                        containers += 1
 
         if containers != 0:
 
             # If a new run
-            if previous_run == 0:
+            if new or error:
                 subprocess.run(["nginx"])
 
             certbot = "certbot --nginx --email adam@mcaq.me --agree-tos --redirect --noninteractive --expand"
 
             for server in servers:
                 certbot += (f" -d {server}")
-            # subprocess.run(certbot.split(" "))
-            print(certbot)
 
-            subprocess.run(["service", "nginx", "reload"])
+            if os.environ.get("PRODUCTION") is None:
+                print(certbot)
 
+            else:
+                subprocess.run(certbot.split(" "))
 
-        previous_run = len(data["Containers"])
+            result = subprocess.run(["service", "nginx", "reload"], stdout=subprocess.PIPE)
 
-    else:
-        print("no new containers")
-    time.sleep(5)
+            if result.returncode != 0:
+                print("Nginx Failed to Reload, skipping")
+                error = True
+
+    previous_run = len(data["Containers"])
+
+    time.sleep(1)

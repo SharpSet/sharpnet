@@ -16,7 +16,7 @@ services:
 networks:
     default:
         external:
-            name: sharpnet
+            name: sharpnet_testing
 
 volumes:
   certs:
