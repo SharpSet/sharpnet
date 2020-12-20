@@ -11,11 +11,12 @@ containers = 0
 config = ""
 error = False
 
-if os.environ.get("PRODUCTION") is None:
+if os.environ.get("PRODUCTION") == "FALSE":
     network = "sharpnet_testing"
 
 else:
     network = "sharpnet"
+
 while True:
     servers = []
     out = subprocess.check_output(["sh", "-c", f"docker network inspect {network}"])
@@ -64,7 +65,7 @@ while True:
             for server in servers:
                 certbot += (f" -d {server}")
 
-            if os.environ.get("PRODUCTION") is None:
+            if os.environ.get("PRODUCTION") == "FALSE":
                 print(certbot)
 
             else:
