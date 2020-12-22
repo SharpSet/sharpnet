@@ -43,7 +43,7 @@ jobs:
             echo "HTTP_PORT=80" > .env
             echo "HTTPS_PORT=443" >> .env
             echo "DEV=FALSE" >> .env
-            echo "NETWORK=sharpnet_testing" >> .env
+            echo "NETWORK=sharpnet" >> .env
 
       - run:
           name: "SharpCD Deploy"
