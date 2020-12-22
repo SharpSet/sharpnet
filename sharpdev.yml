@@ -1,5 +1,7 @@
 version: 0.1
 
+envfile: .env
+
 scripts:
   network: sudo docker network create sharpnet
   volume: sudo docker volume create --name=webcode

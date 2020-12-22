@@ -11,7 +11,7 @@ containers = 0
 config = ""
 error = False
 
-if os.environ.get("PRODUCTION") == "FALSE":
+if os.environ.get("DEV") == "TRUE":
     network = "sharpnet_testing"
 
 else:
@@ -35,7 +35,7 @@ while True:
                 err = result.stderr.decode("utf-8")
 
                 if result.returncode != 0:
-                    if "/sharpnet/nginx.conf: No such file or directory" in err:
+                    if "No such file or directory" in err:
                         print(f"{name} did not have a nginx config file, ignoring")
                     else:
                         print("Error not regonized, attempting to skip")
@@ -44,11 +44,11 @@ while True:
                 else:
                     out.write(config + "\n")
 
-                    matches = re.search('server_name(.*);', config)
+                    matches = re.findall('server_name(.*);', config)
                     if matches is None:
                         print("No server_name variable found, skipping")
                     else:
-                        for server in matches.groups():
+                        for server in matches:
                             for subdomain in server.strip().split(" "):
                                 servers.append(subdomain.replace(" ", ""))
                         print(f"Taken container {name}'s nginx config")
@@ -59,13 +59,14 @@ while True:
             # If a new run
             if new or error:
                 subprocess.run(["nginx"])
+                new = False
 
             certbot = "certbot --nginx --email adam@mcaq.me --agree-tos --redirect --noninteractive --expand"
 
             for server in servers:
                 certbot += (f" -d {server}")
 
-            if os.environ.get("PRODUCTION") == "FALSE":
+            if os.environ.get("DEV") == "TRUE":
                 print(certbot)
 
             else:
@@ -76,6 +77,8 @@ while True:
             if result.returncode != 0:
                 print("Nginx Failed to Reload, skipping")
                 error = True
+
+            print("SHARPNET ACTIVE")
 
     previous_run = len(data["Containers"])
 

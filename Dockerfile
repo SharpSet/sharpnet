@@ -2,7 +2,7 @@ FROM nginx:1.19
 
 RUN apt-get update -y
 
-COPY get-docker.sh get-docker.sh
+COPY ./buildfiles/get-docker.sh get-docker.sh
 RUN sh get-docker.sh
 
 RUN apt-get install -y \

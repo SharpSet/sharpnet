@@ -3,13 +3,13 @@ version: "3"
 services:
   sharpnet:
     hostname: sharpnet
-    build: .
+    image: sharp6292/sharpnet
     ports:
       - "${HTTP_PORT}:80"
       - "${HTTPS_PORT}:443"
 
     environment:
-      - "PRODUCTION=${PRODUCTION}"
+      - "DEV=${DEV}"
 
     volumes:
       - certs:/etc/letsencrypt/
@@ -19,7 +19,7 @@ services:
 networks:
     default:
         external:
-            name: sharpnet_testing
+            name: ${NETWORK}
 
 volumes:
   certs:
