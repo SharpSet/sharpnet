@@ -55,10 +55,10 @@ workflows:
   workflow:
     jobs:
       - build:
-          context: general
+          context: General
 
       - deploy:
-          context: general
+          context: General
           requires:
             - build
 
