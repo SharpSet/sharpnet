@@ -17,7 +17,8 @@ jobs:
           name: "Build"
           command: |
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker build --cache-from sharp6292/sharpnet -t sharp6292/sharpnet .
+            docker pull sharp6292/sharpnet || true
+            docker build --cache-from sharp6292/sharpnet -t  sharp6292/sharpnet .
             docker push sharp6292/sharpnet
 
   deploy:
