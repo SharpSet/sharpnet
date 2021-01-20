@@ -24,7 +24,8 @@ while True:
     data = json.loads(out)[0]
 
     if len(data["Containers"]) > previous_run:
-        copyfile('/source/default.conf', '/etc/nginx/conf.d/site.conf')
+        open("/etc/nginx/conf.d/site.conf", 'w').close()
+        copyfile('/source/default.conf', '/etc/nginx/nginx.conf')
         print("New containers detected!!")
         print("Waiting 5 Seconds for boot...")
         time.sleep(5)
