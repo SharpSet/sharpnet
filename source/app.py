@@ -84,4 +84,4 @@ while True:
 
     previous_run = len(data["Containers"])
 
-    time.sleep(10)
+    time.sleep(1)
