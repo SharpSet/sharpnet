@@ -25,6 +25,8 @@ while True:
     if len(data["Containers"]) > previous_run:
         open('/etc/nginx/conf.d/site.conf', 'w').close()
         print("New containers detected!!")
+        print("Waiting 5 Seconds for boot...")
+        time.sleep(5)
 
         for container in data["Containers"].values():
             name = container["Name"]
@@ -82,4 +84,4 @@ while True:
 
     previous_run = len(data["Containers"])
 
-    time.sleep(1)
+    time.sleep(10)
