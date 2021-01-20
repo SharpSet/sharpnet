@@ -40,8 +40,8 @@ while True:
                     if "No such file or directory" in err:
                         print(f"{name} did not have a nginx config file, ignoring")
                     else:
-                        print("Error not regonized, attempting to skip")
-                        print(err)
+                        print(f"Error in {name} not regonized, attempting to skip")
+                        print(err, config)
 
                 else:
                     out.write(config + "\n")
