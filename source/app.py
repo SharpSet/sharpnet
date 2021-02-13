@@ -65,7 +65,7 @@ while True:
                 subprocess.run(["nginx"])
                 new = False
 
-            certbot = "certbot --nginx --email adam@mcaq.me --agree-tos --redirect --noninteractive --expand"
+            certbot = "certbot --nginx --email adam@mcaq.me --cert-name mcadesigns.co.uk --agree-tos --redirect --noninteractive --expand"
 
             for server in servers:
                 certbot += (f" -d {server}")
