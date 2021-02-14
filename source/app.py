@@ -26,6 +26,7 @@ while True:
     if len(data["Containers"]) > previous_run:
         open("/etc/nginx/conf.d/site.conf", 'w').close()
         copyfile('/source/default.conf', '/etc/nginx/nginx.conf')
+        copyfile('/source/security.conf', '/etc/letsencrypt/options-ssl-nginx.conf')
         print("New containers detected!!")
         print("Waiting 5 Seconds for boot...")
         time.sleep(5)
