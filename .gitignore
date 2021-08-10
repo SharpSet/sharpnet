@@ -2,3 +2,4 @@ websites
 .env
 .venv
 .vscode
+test/

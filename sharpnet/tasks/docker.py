@@ -95,3 +95,4 @@ def kill(self, container):
     except ValueError:
         pass
     print(f"{container.name} was killed.\n")
+    self.mail_error(container)

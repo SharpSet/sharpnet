@@ -17,6 +17,7 @@ DEFAULT_CONF = (p / "default.conf").as_posix()
 SECURITY_CONF = (p / "security.conf").as_posix()
 REDIRECT_CONF = (p / "redirect.conf").as_posix()
 TEST_CONF = (p / "test.conf").as_posix()
+HTMLFILE = (p / "index.html").as_posix()
 
 if os.environ.get("DEV") == "TRUE":
     NETWORK = "sharpnet_testing"

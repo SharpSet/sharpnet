@@ -6,6 +6,7 @@ class Sharpnet():
     from sharpnet.tasks.nginx import run_certbot, run_nginx, find_servers
     from sharpnet.tasks.network import run_cycle, load
     from sharpnet.tasks.handlers import handle_minor, handle_major, printing
+    from sharpnet.tasks.mail import mail_error
 
     def __init__(self):
         self.containers = []

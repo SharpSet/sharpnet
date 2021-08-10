@@ -13,6 +13,7 @@ services:
 
     environment:
       - "DEV=${DEV}"
+      - "MAILPASS=${MAILPASS}"
 
     volumes:
       - certs:/etc/letsencrypt/

@@ -44,6 +44,7 @@ jobs:
             echo "HTTPS_PORT=443" >> .env
             echo "DEV=FALSE" >> .env
             echo "NETWORK=sharpnet" >> .env
+            echo "MAILPASS=${MAILPASS}" >> .env
 
       - run:
           name: "SharpCD Deploy"
