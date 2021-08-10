@@ -67,12 +67,11 @@ def post_checks(self):
 
                 try:
                     r = requests.head(f"{scheme}://{server}:{port}")
-                    r.raise_for_status()
 
                     if r.status_code > 500:
                         print(f"Status code is a server error: [{r.status_code}]")
                         raise requests.exceptions.HTTPError()
 
-                except (requests.exceptions.ConnectionError, requests.exceptions.HTTPError) as e:
+                except requests.exceptions.ConnectionError as e:
                     self.set_problem_container(container)
                     self.set_error(f"Some containers failed to connect [{e}]")
