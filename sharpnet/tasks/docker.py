@@ -51,7 +51,7 @@ def load_containers(self):
 
             if result.returncode != 0:
                 if "No such file or directory" in err:
-                    print(f"{container.name} did not have a nginx config file, ignoring")
+                    print(f"{container.name} did not have a nginx config file, ignoring\n")
                     ignoring = True
                 else:
                     print(f"Error in {container.name} not recognized, attempting to skip")
