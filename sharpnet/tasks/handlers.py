@@ -1,3 +1,5 @@
+import time
+
 def handle_major(self):
     self.printing()
     self.kill(self.problem_container)
@@ -14,7 +16,9 @@ def handle_minor(self):
         self.kill(self.problem_container)
 
     else:
-        print(f"Container {self.problem_container.name} will be will have a single mercy run...\n")
+        print(f"Container {self.problem_container.name} will be will have a single mercy run...")
+        print("Sleeping for 15 seconds!")
+        time.sleep(15)
         self.cache_data(self.problem_container, mercy=False)
         self.load()
 

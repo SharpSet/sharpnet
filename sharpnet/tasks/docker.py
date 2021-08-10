@@ -3,8 +3,7 @@ import subprocess
 from shutil import copyfile
 
 from sharpnet.classes import Container
-from sharpnet.constants import (DEFAULT_CONF, NETWORK, OPTIONS_SSL_NGINX_CONF,
-                                SECURITY_CONF, SITE_CONF, NGINX_CONF)
+from sharpnet.constants import SITE_CONF, NETWORK
 
 
 def get_containers(self):
@@ -32,9 +31,6 @@ def load_containers(self):
 
     changes = False
 
-    copyfile(DEFAULT_CONF, NGINX_CONF)
-    copyfile(SECURITY_CONF, OPTIONS_SSL_NGINX_CONF)
-
     for container in self.containers:
 
         print(f"** [LOADING {container.name}] **")
@@ -56,14 +52,14 @@ def load_containers(self):
                 else:
                     print(f"Error in {container.name} not recognized, attempting to skip")
                     print(err, config)
-                    self.problem_container = container
+                    self.set_problem_container(container)
             else:
                 with open(SITE_CONF, 'r') as full_config:
                     full_config = full_config.read()
 
                     con_servers = self.find_servers(config)
                     if not con_servers:
-                        self.problem_container = container
+                        self.set_problem_container(container)
                         continue
 
                     print(f"Making sure {container.name} is ready.")
@@ -79,9 +75,12 @@ def load_containers(self):
 
                     out.write(config + "\n")
 
+                for server in con_servers:
+                    self.servers.append(server)
+
             if not loaded and not ignoring:
                 print(f"Failed to load {container.name}'s' config\n")
-                self.problem_container = container
+                self.set_problem_container(container)
 
     return changes
 

@@ -1,7 +1,9 @@
 import re
 import requests
+import subprocess
 import time
 from sharpnet.classes import CacheData, Container
+from sharpnet.constants import TEST_SITE_CONF, DUMMY_CONF
 
 def cache_data(self, container, servers=None, mercy=None):
     data = self.cache.get(container.name)
@@ -20,26 +22,15 @@ def cache_data(self, container, servers=None, mercy=None):
 
 def ensure_loaded(self, config):
 
-    runs = 0
+    with open(TEST_SITE_CONF, "w+") as file:
+        file.write(config)
 
-    while True:
-        matches = re.findall('proxy_pass(.*);', config)
-        for address in matches:
-            address = address.replace(" ", "")
+    result = subprocess.run(["nginx", "-c", DUMMY_CONF, "-t"])
+    if result.returncode != 0:
+        return False
 
-            try:
-                r = requests.head(address)
-                r.raise_for_status()
-                return True
-
-            except (requests.exceptions.ConnectionError, requests.exceptions.HTTPError):
-                pass
-
-        time.sleep(1)
-        runs += 1
-
-        if runs > 20:
-            return False
+    else:
+        return True
 
 
 def refresh(self):
@@ -47,4 +38,13 @@ def refresh(self):
     self.containers = []
     self.containers_loaded = []
     self.servers = []
-    self.problem_container = None
+
+
+def set_problem_container(self, container):
+    if not self.problem_container:
+        self.problem_container = container
+
+
+def set_error(self, error):
+    if not self.error:
+        self.error = error

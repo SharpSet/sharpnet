@@ -45,5 +45,4 @@ scripts:
     sharpdev servertest 1
     sharpdev servertest 2
     sharpdev servertest 3
-    sharpdev servertest 4
 

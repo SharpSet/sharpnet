@@ -25,8 +25,7 @@ def run_nginx(self):
     result = subprocess.run(["service", "nginx", "reload"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     if result.returncode != 0:
-        self.error = "Failed to run Nginx"
-        self.handle_minor()
+        self.set_error("Failed to run Nginx")
 
 
 def find_servers(self, config):
@@ -35,12 +34,11 @@ def find_servers(self, config):
 
     matches = re.findall('server_name(.*);', config)
     if matches is None:
-        self.error = "Failed to find any servers"
+        self.set_error("Failed to find any servers")
     else:
         for server in matches:
             for domain in server.strip().split(" "):
                 domain = domain.replace(" ", "")
-                self.servers.append(domain)
                 con_servers.append(domain)
 
     return con_servers

@@ -33,7 +33,7 @@ def load(self):
     config_changes = self.load_containers()
 
     if self.problem_container:
-        self.error = "Error loading container"
+        self.set_error("Error Loading Container")
 
     if self.containers_loaded and config_changes:
 
@@ -42,7 +42,7 @@ def load(self):
         print("======================\n")
 
         if not certbot_success:
-            self.error = "Failed to Load Certbot"
+            self.set_error("Failed to Load Certbot")
 
     if not config_changes:
         print("No changes to config!\n")
@@ -74,5 +74,5 @@ def post_checks(self):
                         raise requests.exceptions.HTTPError()
 
                 except (requests.exceptions.ConnectionError, requests.exceptions.HTTPError) as e:
-                    self.problem_container = (container)
-                    self.error = f"Some containers failed to connect [{e}]"
+                    self.set_problem_container(container)
+                    self.set_error(f"Some containers failed to connect [{e}]")
