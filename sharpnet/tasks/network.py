@@ -69,8 +69,8 @@ def post_checks(self):
                     r = requests.head(f"{scheme}://{server}:{port}")
                     r.raise_for_status()
 
-                    if r.status_code != 200:
-                        print("Status code not 200")
+                    if r.status_code < 500:
+                        print("Status code is a server error")
                         raise requests.exceptions.HTTPError()
 
                 except (requests.exceptions.ConnectionError, requests.exceptions.HTTPError) as e:
