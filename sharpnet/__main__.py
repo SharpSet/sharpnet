@@ -25,8 +25,9 @@ def loop(network):
             network.run_cycle()
 
         if network.force:
-            print(f"Forced to run")
-            network.run_cycle()
+            print(f"Forced to Run from scratch")
+            open(SITE_CONF, 'w').close()
+            network.cache = {}
             network.force = False
 
         time.sleep(1)
