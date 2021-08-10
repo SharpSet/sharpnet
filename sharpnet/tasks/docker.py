@@ -41,6 +41,7 @@ def load_containers(self):
 
         con_servers = []
         loaded = False
+        ignoring = False
 
         with open(SITE_CONF, 'a') as out:
 
@@ -51,6 +52,7 @@ def load_containers(self):
             if result.returncode != 0:
                 if "No such file or directory" in err:
                     print(f"{container.name} did not have a nginx config file, ignoring")
+                    ignoring = True
                 else:
                     print(f"Error in {container.name} not recognized, attempting to skip")
                     print(err, config)
@@ -77,7 +79,7 @@ def load_containers(self):
 
                     out.write(config + "\n")
 
-            else:
+            if not loaded and not ignoring:
                 print(f"Failed to load {container.name}'s' config\n")
                 self.problem_container = container
 
