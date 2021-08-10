@@ -73,6 +73,6 @@ def post_checks(self):
                         print("Status code not 200")
                         raise requests.exceptions.HTTPError()
 
-                except (requests.exceptions.ConnectionError, requests.exceptions.HTTPError):
+                except (requests.exceptions.ConnectionError, requests.exceptions.HTTPError) as e:
                     self.problem_container = (container)
-                    self.error = "Some containers failed to connect"
+                    self.error = f"Some containers failed to connect [{e}]"
