@@ -1,17 +1,22 @@
-FROM nginx:1.19
+FROM python:3.9.1-slim-buster
 
 RUN apt-get update -y
 
 COPY ./buildfiles/get-docker.sh get-docker.sh
+COPY ./buildfiles/get-nginx.sh get-nginx.sh
+
 RUN sh get-docker.sh
+RUN sh get-nginx.sh
 
-RUN apt-get install -y \
-    moreutils \
-    gettext-base \
-    python3.7 \
-    python3-pip \
-    python3-certbot-nginx
+RUN pip3 install \
+    pipenv \
+    certbot-nginx
 
-COPY ./source /source
+COPY Pipfile Pipfile
+COPY Pipfile.lock Pipfile.lock
+RUN pipenv install --system
 
-CMD [ "python3", "-u", "/source/app.py" ]
+COPY ./sharpnet /sharpnet/
+
+ENTRYPOINT ["python3.9"]
+CMD ["-um", "sharpnet"]

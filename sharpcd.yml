@@ -5,14 +5,14 @@ tasks:
     name: SharpNet
     type: docker
     envfile: .env
-    sharpurl: https://173.212.252.82:5666
+    sharpurl: https://mcaq.me:5666
     giturl: https://raw.githubusercontent.com/Sharpz7/
     compose: /sharpnet/master/docker-compose.yml
 
-  sharpnet_corp:
-    name: SharpNet Corp
-    type: docker
-    envfile: .env
-    sharpurl: https://62.171.151.39:5666
-    giturl: https://raw.githubusercontent.com/Sharpz7/
-    compose: /sharpnet/master/docker-compose.yml
+  # sharpnet_corp:
+  #   name: SharpNet Corp
+  #   type: docker
+  #   envfile: .env
+  #   sharpurl: https://corporate1.mcaq.me:5666
+  #   giturl: https://raw.githubusercontent.com/Sharpz7/
+  #   compose: /sharpnet/master/docker-compose.yml

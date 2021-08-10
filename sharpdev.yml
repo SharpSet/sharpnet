@@ -1,4 +1,4 @@
-version: 0.1
+version: 1.0
 
 envfile: .env
 
@@ -8,19 +8,42 @@ scripts:
   remove: sudo docker volume rm -f webcode
 
   run: |
-    sudo docker-compose down && sudo docker-compose up --build --remove-orphans
+    sudo docker-compose -f websites/docker-compose.yml down
+    sudo docker-compose -f websites/docker-compose.yml up --build --remove-orphans
 
   server: |
-    cd websites/test${SHARP_ARG_1} &&\
-    sudo docker-compose down && sudo docker-compose up --build --remove-orphans &&\
+    cd websites/test$_ARG1
+    sudo docker-compose down
+    sudo docker-compose up --build --remove-orphans
+    cd ../../
+
+  servertest: |
+    cd websites/test$_ARG1
+    sudo docker-compose down
+    sudo docker-compose up -d --build --remove-orphans
     cd ../../
 
   conf: |
-    cd websites/test${SHARP_ARG_1} &&\
-    sudo docker-compose exec test${SHARP_ARG_1} cat /etc/nginx/conf.d/site.conf
+    cd websites/test$_ARG1
+    sudo docker-compose exec test$_ARG1 cat /etc/nginx/conf.d/site.conf
     cd ../../
 
   confmain: |
-    sudo docker-compose exec sharpnet cat /etc/nginx/conf.d/site.conf
+    sudo docker-compose -f websites/docker-compose.yml exec sharpnet_test cat /etc/nginx/conf.d/site.conf
 
   logs: sudo docker-compose logs -f
+
+  serverlogs: |
+    cd websites/test$_ARG1
+    sudo docker-compose logs -f
+    cd ../../
+
+  exec: |
+    sudo docker-compose -f websites/docker-compose.yml exec -T sharpnet_test /bin/sh
+
+  test: |
+    sharpdev servertest 1
+    sharpdev servertest 2
+    sharpdev servertest 3
+    sharpdev servertest 4
+
