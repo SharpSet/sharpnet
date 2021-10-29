@@ -9,7 +9,11 @@ scripts:
 
   run: |
     sudo docker-compose -f websites/docker-compose.yml down
-    sudo docker-compose -f websites/docker-compose.yml up --build --remove-orphans
+    sudo docker-compose -f websites/docker-compose.yml up -d --build --remove-orphans
+    sharpdev logs
+
+  kill: |
+    sudo docker-compose -f websites/docker-compose.yml down
 
   server: |
     cd websites/test$_ARG1
@@ -23,6 +27,11 @@ scripts:
     sudo docker-compose up -d --build --remove-orphans
     cd ../../
 
+  serverkill: |
+    cd websites/test$_ARG1
+    sudo docker-compose down
+    cd ../../
+
   conf: |
     cd websites/test$_ARG1
     sudo docker-compose exec test$_ARG1 cat /etc/nginx/conf.d/site.conf
@@ -31,12 +40,13 @@ scripts:
   confmain: |
     sudo docker-compose -f websites/docker-compose.yml exec sharpnet_test cat /etc/nginx/conf.d/site.conf
 
-  logs: sudo docker-compose logs -f
-
   serverlogs: |
     cd websites/test$_ARG1
     sudo docker-compose logs -f
     cd ../../
+
+  logs: |
+    sudo docker-compose -f websites/docker-compose.yml logs -f
 
   exec: |
     sudo docker-compose -f websites/docker-compose.yml exec -T sharpnet_test /bin/sh
@@ -47,3 +57,8 @@ scripts:
     sharpdev servertest 3
     sharpdev run
 
+  killall: |
+    sharpdev serverkill 1
+    sharpdev serverkill 2
+    sharpdev serverkill 3
+    sharpdev kill

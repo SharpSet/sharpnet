@@ -4,6 +4,7 @@ import subprocess
 import time
 from sharpnet.classes import CacheData, Container
 from sharpnet.constants import TEST_SITE_CONF, DUMMY_CONF
+from datetime import date
 
 def cache_data(self, container, servers=None, mercy=None):
     data = self.cache.get(container.name)
@@ -21,6 +22,11 @@ def cache_data(self, container, servers=None, mercy=None):
 
 
 def ensure_loaded(self, config):
+    """
+    Makes sure the sharpnet config from a container is valid
+
+    If it is not, it will not be loaded to avoid errors.
+    """
 
     with open(TEST_SITE_CONF, "w+") as file:
         file.write(config)
@@ -34,17 +40,35 @@ def ensure_loaded(self, config):
 
 
 def refresh(self):
+    """
+    Remove all data that is meant for one loop
+
+    Check if network should update certs
+    """
+
     self.containers_last = self.containers
     self.containers = []
     self.containers_loaded = []
     self.servers = []
 
+    if self.last_cert_check_date != date.today():
+        self.last_cert_check_date = date.today()
+        self.force = True
+
 
 def set_problem_container(self, container):
+    """
+    Sets the current loops problem container
+
+    If it is already set, it will not override.
+    """
     if not self.problem_container:
         self.problem_container = container
 
 
 def set_error(self, error):
+    """
+    Sets the current loops error
+    """
     if not self.error:
         self.error = error

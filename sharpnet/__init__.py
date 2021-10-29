@@ -1,4 +1,10 @@
+from datetime import date
+
 class Sharpnet():
+    """
+    Special code that allows all tasks to be considered part of
+    the Sharpnet Class
+    """
 
     from sharpnet.tasks.docker import get_containers, load_containers, kill
     from sharpnet.tasks.general import (cache_data, ensure_loaded,
@@ -18,3 +24,4 @@ class Sharpnet():
         self.problem_container = None
         self.error = None
         self.force = False
+        self.last_cert_check_date = date.today()

@@ -3,13 +3,16 @@ import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-from sharpnet.constants import HTMLFILE
+from sharpnet.constants import HTMLFILE, SENDER_EMAIL, RECEIVER_EMAIL
 
-sender_email = "mcadesignsmail@gmail.com"
-receiver_email = "adam@mcaq.me"
+sender_email = SENDER_EMAIL
+receiver_email = RECEIVER_EMAIL
 password = os.environ.get("MAILPASS")
 
 def mail_error(self, container):
+    """
+    Allows for errors to be sent to developer over email.
+    """
 
     message = MIMEMultipart("alternative")
     message["Subject"] = f"Error in Container {container.name}"
@@ -25,11 +28,8 @@ def mail_error(self, container):
 
     html = html.replace("XXXXX", text)
 
-    # Turn these into plain/html MIMEText objects
     main = MIMEText(html, "html")
 
-    # Add HTML/plain-text parts to MIMEMultipart message
-    # The email client will try to render the last part first
     message.attach(main)
 
     # Create secure connection with server and send email

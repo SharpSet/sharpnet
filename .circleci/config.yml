@@ -45,6 +45,9 @@ jobs:
             echo "DEV=FALSE" >> .env
             echo "NETWORK=sharpnet" >> .env
             echo "MAILPASS=${MAILPASS}" >> .env
+            echo "SENDER_EMAIL=${SENDER_EMAIL}" >> .env
+            echo "RECEIVER_EMAIL=${RECEIVER_EMAIL}" >> .env
+            echo "DOMAIN=${DOMAIN}" >> .env
 
       - run:
           name: "SharpCD Deploy"

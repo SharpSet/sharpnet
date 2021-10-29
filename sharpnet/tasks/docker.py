@@ -7,6 +7,11 @@ from sharpnet.constants import SITE_CONF, NETWORK
 
 
 def get_containers(self):
+    """
+    Gets all containers on sharpnet network
+
+    Also sets all new containers
+    """
     format_json = (
         '{"Name":"{{.Names}}","State":"{{.State}}"}'
     )
@@ -29,6 +34,15 @@ def get_containers(self):
 
 def load_containers(self):
 
+    """
+    Attempts to "load" all containers that were found.
+
+    "loading" includes:
+        - checking for a sharpnet nginx configuration
+        - checking the config has no errors
+        - adding all domains from the config into storage
+    """
+
     changes = False
 
     for container in self.containers:
@@ -45,7 +59,10 @@ def load_containers(self):
             config = result.stdout.decode("utf-8")
             err = result.stderr.decode("utf-8")
 
+            # Error finding the nginx conf
             if result.returncode != 0:
+
+                # No config file, this is okay
                 if "No such file or directory" in err:
                     print(f"{container.name} did not have a nginx config file, ignoring\n")
                     ignoring = True
@@ -70,6 +87,7 @@ def load_containers(self):
                 self.containers_loaded.append(container)
                 self.cache_data(container, servers=con_servers)
 
+                # If config is not already loaded...
                 if config not in full_config:
                     changes = True
 

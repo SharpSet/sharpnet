@@ -14,6 +14,9 @@ services:
     environment:
       - "DEV=${DEV}"
       - "MAILPASS=${MAILPASS}"
+      - "SENDER_EMAIL=${SENDER_EMAIL}"
+      - "RECEIVER_EMAIL=${RECEIVER_EMAIL}"
+      - "DOMAIN=${DOMAIN}"
 
     volumes:
       - certs:/etc/letsencrypt/

@@ -5,6 +5,9 @@ import re
 from sharpnet.constants import CERTBOT_COMMAND, DEV
 
 def run_certbot(self):
+    """
+    Uses all stored domains from sharpnet file to generate SSL certificates for each of them
+    """
     certbot_command = CERTBOT_COMMAND
 
     for server in self.servers:
@@ -22,6 +25,10 @@ def run_certbot(self):
 
 
 def run_nginx(self):
+    """
+    Reloads nginx to install new sharpnet full config
+    """
+
     result = subprocess.run(["service", "nginx", "reload"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     if result.returncode != 0:
@@ -29,6 +36,9 @@ def run_nginx(self):
 
 
 def find_servers(self, config):
+    """
+    Find all servers in a nginx configuartion using regex
+    """
 
     con_servers = []
 

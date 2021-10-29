@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/Sharpz7/sharpnet/tree/master.svg?style=svg)](https://circleci.com/gh/Sharpz7/sharpnet/tree/master)
+
 # SharpNet
 
 Sharpnet is a service that controls NGINX allowing for painless and automatic control of your websites and webapps with automatic SSL certification.

@@ -1,6 +1,13 @@
 import time
 
 def handle_major(self):
+    """
+    Triggered if the error is considered major.
+
+    Container will instantly be killed and a force-restart will be triggered.
+
+    In most situations this will not create downtime
+    """
     self.printing()
     self.kill(self.problem_container)
 
@@ -9,6 +16,14 @@ def handle_major(self):
     self.force = True
 
 def handle_minor(self):
+    """
+    Triggered when a loop error is considered minor.
+
+    This means that the container will be given one more loop to not fail
+
+    After this "mercy" run, the error will be treated as major.
+    """
+
     self.printing()
     cache = self.cache.get(self.problem_container.name)
     if cache and not cache.mercy:

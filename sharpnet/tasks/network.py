@@ -4,6 +4,9 @@ import requests
 from sharpnet.constants import DEV
 
 def run_cycle(self):
+    """
+    Run Cycle that runs once every loop
+    """
 
     print("Loading Containers")
     print("======================")
@@ -24,6 +27,9 @@ def run_cycle(self):
 
 
 def load(self):
+    """
+    Loads Docker containers and activates certbot.
+    """
 
     config_changes = self.load_containers()
 
