@@ -52,7 +52,7 @@ jobs:
       - run:
           name: "SharpCD Deploy"
           command: |
-            sharpcd --secret ${SHARPCD_SECRET}
+            sharpcd --secret ${TEST}
 
 workflows:
   version: 2
