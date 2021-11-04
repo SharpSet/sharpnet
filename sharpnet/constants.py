@@ -37,4 +37,4 @@ else:
     NETWORK = "sharpnet"
     DEV = False
 
-CERTBOT_COMMAND = f"certbot --nginx --email {RECEIVER_EMAIL} --cert-name {DOMAIN} --agree-tos --redirect --noninteractive --expand --verbose"
+CERTBOT_COMMAND = f"certbot --nginx --email {RECEIVER_EMAIL} --cert-name {DOMAIN} --agree-tos --redirect --noninteractive --expand --verbose --keep-until-expiring"

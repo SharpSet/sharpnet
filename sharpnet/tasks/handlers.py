@@ -8,8 +8,12 @@ def handle_major(self):
 
     In most situations this will not create downtime
     """
-    self.printing()
-    self.kill(self.problem_container)
+    if self.problem_container:
+        self.printing()
+        self.kill(self.problem_container)
+
+    else:
+        print("No problem containers but error raised!")
 
     self.problem_container = None
     self.error = None
@@ -24,18 +28,22 @@ def handle_minor(self):
     After this "mercy" run, the error will be treated as major.
     """
 
-    self.printing()
-    cache = self.cache.get(self.problem_container.name)
-    if cache and not cache.mercy:
-        print(f"Container {self.problem_container.name} used mercy run...\n")
-        self.kill(self.problem_container)
+    if self.problem_container:
+        self.printing()
+        cache = self.cache.get(self.problem_container.name)
+        if cache and not cache.mercy:
+            print(f"Container {self.problem_container.name} used mercy run...\n")
+            self.kill(self.problem_container)
+
+        else:
+            print(f"Container {self.problem_container.name} will be will have a single mercy run...")
+            print("Sleeping for 15 seconds!")
+            time.sleep(15)
+            self.cache_data(self.problem_container, mercy=False)
+            self.load()
 
     else:
-        print(f"Container {self.problem_container.name} will be will have a single mercy run...")
-        print("Sleeping for 15 seconds!")
-        time.sleep(15)
-        self.cache_data(self.problem_container, mercy=False)
-        self.load()
+        print("No problem containers but error raised!")
 
     self.problem_container = None
     self.error = None
