@@ -1,41 +1,16 @@
 version: 2.1
 
+orbs:
+  docker: sharptools/docker@volatile
+  sharpcd: sharptools/sharpcd@volatile
+
 jobs:
-  build:
-    docker:
-      - image: docker:stable
-
-    steps:
-      - checkout
-
-      - setup_remote_docker
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: "Build"
-          command: |
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker pull sharp6292/sharpnet || true
-            docker build --cache-from sharp6292/sharpnet -t  sharp6292/sharpnet .
-            docker push sharp6292/sharpnet
-
   deploy:
     docker:
       - image: cimg/base:2020.01
 
     steps:
-      - checkout
-
-      - run:
-          name: "Install SharpCD"
-          command: |
-            wget https://github.com/Sharpz7/sharpcd/releases/download/3.3/linux.tar.gz
-            sudo tar -C /usr/local/bin/ -zxvf linux.tar.gz
-            rm -r linux.tar.gz
-
-            chmod u+x /usr/local/bin/sharpcd
+      - sharpcd/install
 
       - run:
           name: "Setup Env"
@@ -49,22 +24,22 @@ jobs:
             echo "RECEIVER_EMAIL=${RECEIVER_EMAIL}" >> .env
             echo "DOMAIN=${DOMAIN}" >> .env
 
-      - run:
-          name: "SharpCD Deploy"
-          command: |
-            sharpcd --secret ${SHARPCD_SECRET}
+      - sharpcd/deploy
 
 workflows:
   version: 2
   workflow:
     jobs:
-      - build:
+      - docker/build:
           context: General
+          image: sharp6292/sharpnet:latest
+
 
       - deploy:
           context: General
           requires:
-            - build
+            - docker/build
+
           filters:
             branches:
-              only: master
+              only: main

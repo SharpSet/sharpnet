@@ -32,6 +32,29 @@ Download the docker-compose file, set your env vars and run the file!
 
 For seeing how to configue your websites and apps for sharpnet, please check my other public repositories with web-apps and websites to see examples.
 
+## SharpCD Install
+
+- Make sure [SharpCD](https://github.com/Sharpz7/sharpcd) has been installed.
+
+- Create a sharpcd.yml file like the following:
+
+```yml
+version: 1
+
+tasks:
+  sharpnet:
+    name: SharpNet
+    type: docker
+    envfile: .env
+    sharpurl: https://mydomain.com:5666
+    giturl: https://raw.githubusercontent.com/Sharpz7/
+    compose: /sharpnet/master/docker-compose.yml
+```
+
+- Ensure the enviromental variables have been set in an enviromental variable file:
+
+- Run `sharpcd` to get started!
+
 ## Maintainers
 
 - [Adam McArthur](https://adam.mcaq.me)

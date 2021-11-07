@@ -12,11 +12,11 @@ services:
       - "${HTTPS_PORT}:443"
 
     environment:
-      - "DEV=${DEV}"
-      - "MAILPASS=${MAILPASS}"
-      - "SENDER_EMAIL=${SENDER_EMAIL}"
-      - "RECEIVER_EMAIL=${RECEIVER_EMAIL}"
-      - "DOMAIN=${DOMAIN}"
+      - "DEV=${DEV:?err}"
+      - "MAILPASS=${MAILPASS:?err}"
+      - "SENDER_EMAIL=${SENDER_EMAIL:?err}"
+      - "RECEIVER_EMAIL=${RECEIVER_EMAIL:?err}"
+      - "DOMAIN=${DOMAIN:?err}"
 
     volumes:
       - certs:/etc/letsencrypt/
