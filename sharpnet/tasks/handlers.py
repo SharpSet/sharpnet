@@ -44,6 +44,7 @@ def handle_minor(self):
 
     else:
         print("No problem containers but error raised!")
+        self.force = True
 
     self.problem_container = None
     self.error = None
