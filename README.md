@@ -4,7 +4,7 @@
 
 Sharpnet is a service that controls NGINX allowing for painless and automatic control of your websites and webapps with automatic SSL certification.
 
-![Example of Sharpnet Logs](https://files.mcaq.me/vi1u.png)
+![Example of Sharpnet (Diagram)](https://files.mcaq.me/c07c2.png)
 
 ## Configuration
 
