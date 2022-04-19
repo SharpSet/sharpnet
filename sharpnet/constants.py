@@ -13,11 +13,12 @@ TEST_SITE_CONF = (etc_nginx / "conf.d" / "test.conf").as_posix()
 
 OPTIONS_SSL_NGINX_CONF = (letsencrypt / "options-ssl-nginx.conf").as_posix()
 
-DEFAULT_CONF = (p / "default.conf").as_posix()
-SECURITY_CONF = (p / "security.conf").as_posix()
-REDIRECT_CONF = (p / "redirect.conf").as_posix()
-TEST_CONF = (p / "test.conf").as_posix()
+LOC_NGINX_CONF = (p / "default.conf").as_posix()
+LOC_OPTIONS_SSL_NGINX_CONF = (p / "security.conf").as_posix()
+LOC_DUMMY_CONF = (p / "test.conf").as_posix()
 HTMLFILE = (p / "index.html").as_posix()
+
+# REDIRECT_CONF = (p / "redirect.conf").as_posix()
 
 SENDER_EMAIL = os.environ.get("SENDER_EMAIL")
 RECEIVER_EMAIL = os.environ.get("RECEIVER_EMAIL")

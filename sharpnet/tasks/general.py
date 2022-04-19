@@ -1,5 +1,4 @@
 import re
-import requests
 import subprocess
 import time
 from sharpnet.classes import CacheData, Container
@@ -7,6 +6,12 @@ from sharpnet.constants import TEST_SITE_CONF, DUMMY_CONF
 from datetime import date
 
 def cache_data(self, container, servers=None, mercy=None):
+    """
+    Cache that stores data for a container
+
+    This is used to make sure that the container is not a restarted on a mercy run
+    """
+
     data = self.cache.get(container.name)
 
     if data is None:
@@ -69,6 +74,9 @@ def set_problem_container(self, container):
 def set_error(self, error):
     """
     Sets the current loops error
+
+    Will be used on its own if error not related to a container
     """
+
     if not self.error:
         self.error = error

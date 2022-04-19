@@ -3,13 +3,11 @@ import subprocess
 import time
 from shutil import copyfile
 
-import requests
-
 from sharpnet import Sharpnet
 from sharpnet.classes import Container
-from sharpnet.constants import (DEFAULT_CONF, NETWORK, NGINX_CONF,
-                                OPTIONS_SSL_NGINX_CONF, SECURITY_CONF,
-                                SITE_CONF, TEST_CONF, DUMMY_CONF)
+from sharpnet.constants import (LOC_NGINX_CONF, NETWORK, NGINX_CONF,
+                                OPTIONS_SSL_NGINX_CONF, LOC_OPTIONS_SSL_NGINX_CONF,
+                                SITE_CONF, LOC_DUMMY_CONF, DUMMY_CONF)
 
 
 def loop(network):
@@ -44,9 +42,9 @@ if __name__ == "__main__":
     # Disabled due to not having expected behavior
     # copyfile(REDIRECT_CONF, DEFAULT_SITE_CONF)
 
-    copyfile(DEFAULT_CONF, NGINX_CONF)
-    copyfile(SECURITY_CONF, OPTIONS_SSL_NGINX_CONF)
-    copyfile(TEST_CONF, DUMMY_CONF)
+    copyfile(LOC_NGINX_CONF, NGINX_CONF)
+    copyfile(LOC_OPTIONS_SSL_NGINX_CONF, OPTIONS_SSL_NGINX_CONF)
+    copyfile(LOC_DUMMY_CONF, DUMMY_CONF)
 
     subprocess.run(["nginx"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     loop(network)

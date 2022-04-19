@@ -71,6 +71,7 @@ def load_containers(self):
                     print(err, config)
                     self.set_problem_container(container)
             else:
+
                 with open(SITE_CONF, 'r') as full_config:
                     full_config = full_config.read()
 
