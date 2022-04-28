@@ -55,6 +55,10 @@ tasks:
 
 - Run `sharpcd` to get started!
 
+
+## Bugs
+If nginx.conf file changes in same run its gets added twice
+
 ## Maintainers
 
 - [Adam McArthur](https://adam.mcaq.me)

@@ -40,6 +40,9 @@ scripts:
   confmain: |
     sudo docker-compose -f websites/docker-compose.yml exec sharpnet_test cat /etc/nginx/conf.d/site.conf
 
+  confprod: |
+    sudo docker-compose exec sharpnet cat /etc/nginx/conf.d/site.conf
+
   serverlogs: |
     cd websites/test$_ARG1
     sudo docker-compose logs -f
