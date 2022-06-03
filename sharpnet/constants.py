@@ -4,6 +4,7 @@ from pathlib import Path
 p = Path("/sharpnet/files/")
 etc_nginx = Path("/etc/nginx/")
 letsencrypt = Path("/etc/letsencrypt")
+default_html = Path("/usr/share/nginx/html")
 
 SITE_CONF = (etc_nginx / "conf.d" / "site.conf").as_posix()
 DEFAULT_SITE_CONF = (etc_nginx / "conf.d" / "default.conf").as_posix()
@@ -17,8 +18,9 @@ LOC_NGINX_CONF = (p / "default.conf").as_posix()
 LOC_OPTIONS_SSL_NGINX_CONF = (p / "security.conf").as_posix()
 LOC_DUMMY_CONF = (p / "test.conf").as_posix()
 HTMLFILE = (p / "index.html").as_posix()
+DEFAULT_INDEX_PAGE = (p / "default.html").as_posix()
 
-# REDIRECT_CONF = (p / "redirect.conf").as_posix()
+DEFAULT_PAGE = (default_html / "index.html").as_posix()
 
 SENDER_EMAIL = os.environ.get("SENDER_EMAIL")
 RECEIVER_EMAIL = os.environ.get("RECEIVER_EMAIL")
@@ -38,4 +40,8 @@ else:
     NETWORK = "sharpnet"
     DEV = False
 
-CERTBOT_COMMAND = f"certbot --nginx --email {RECEIVER_EMAIL} --cert-name {DOMAIN} --agree-tos --redirect --noninteractive --expand --verbose --keep-until-expiring"
+
+CERTBOT_COMMAND = (
+    f"certbot --nginx --email {RECEIVER_EMAIL} --cert-name {DOMAIN} --agree-tos"
+    " --redirect --noninteractive --expand --verbose --keep-until-expiring"
+)

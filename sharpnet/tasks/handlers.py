@@ -1,5 +1,6 @@
 import time
 
+
 def handle_major(self):
     """
     Triggered if the error is considered major.
@@ -19,6 +20,7 @@ def handle_major(self):
     self.error = None
     self.force = True
 
+
 def handle_minor(self):
     """
     Triggered when a loop error is considered minor.
@@ -36,7 +38,9 @@ def handle_minor(self):
             self.kill(self.problem_container)
 
         else:
-            print(f"Container {self.problem_container.name} will be will have a single mercy run...")
+            print(
+                f"Container {self.problem_container.name} will be will have a single mercy run..."
+            )
             print("Sleeping for 15 seconds!")
             time.sleep(15)
             self.cache_data(self.problem_container, mercy=False)
@@ -51,6 +55,10 @@ def handle_minor(self):
 
 
 def printing(self):
+    """
+    Prints the current state of the containers
+    """
+
     print(f"ERRORS FOUND [{self.problem_container.name}]")
     print("======================")
     print(f"[{self.error}]")

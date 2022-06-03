@@ -1,7 +1,3 @@
-import os
-
-from sharpnet.constants import DEV
-
 def run_cycle(self):
     """
     Run Cycle that runs once every loop

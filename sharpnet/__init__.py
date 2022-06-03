@@ -1,18 +1,19 @@
 from datetime import date
 
+
 class Sharpnet():
     """
     Special code that allows all tasks to be considered part of
     the Sharpnet Class
     """
 
-    from sharpnet.tasks.docker import get_containers, load_containers, kill
-    from sharpnet.tasks.general import (cache_data, ensure_loaded,
-                                        refresh, set_problem_container, set_error)
-    from sharpnet.tasks.nginx import run_certbot, run_nginx, find_servers
-    from sharpnet.tasks.network import run_cycle, load
-    from sharpnet.tasks.handlers import handle_minor, handle_major, printing
+    from sharpnet.tasks.docker import get_containers, kill, load_containers
+    from sharpnet.tasks.general import (cache_data, ensure_loaded, refresh,
+                                        set_error, set_problem_container)
+    from sharpnet.tasks.handlers import handle_major, handle_minor, printing
     from sharpnet.tasks.mail import mail_error
+    from sharpnet.tasks.network import load, run_cycle
+    from sharpnet.tasks.nginx import find_servers, run_certbot, run_nginx, get_configs
 
     def __init__(self):
 

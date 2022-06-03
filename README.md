@@ -20,6 +20,7 @@ Note that all of these are required
 | `HTTP_PORT` | int | Port for http connections. |
 | `HTTPS_PORT` | int | Port for https connections. |
 | `DEV` | bool [TRUE?FALSE] | For debugging. |
+| `DEBUG_LOGGING` | bool [TRUE?FALSE] | For debugging. |
 | `NETWORK` | str | The docker network that sharpnet will listen to for new connections. |
 | `MAILPASS` | str | The google one-time password for mail services |
 | `SENDER_EMAIL` | str | Must be a gmail email |
@@ -36,28 +37,13 @@ For seeing how to configue your websites and apps for sharpnet, please check my 
 
 - Make sure [SharpCD](https://github.com/Sharpz7/sharpcd) has been installed.
 
-- Create a sharpcd.yml file like the following:
+- Ensure the enviromental variables have been set in an enviromental variable (.env) file
 
-```yml
-version: 1
+- Run the following command to install the registry:
 
-tasks:
-  sharpnet:
-    name: SharpNet
-    type: docker
-    envfile: .env
-    sharpurl: https://mydomain.com:5666
-    giturl: https://raw.githubusercontent.com/Sharpz7/
-    compose: /sharpnet/master/docker-compose.yml
+```bash
+sharpcd --remotefile https://raw.githubusercontent.com/Sharpz7/sharpnet/master/.sharpcd/sharpcd.yml
 ```
-
-- Ensure the enviromental variables have been set in an enviromental variable file:
-
-- Run `sharpcd` to get started!
-
-
-## Bugs
-If nginx.conf file changes in same run its gets added twice
 
 ## Maintainers
 

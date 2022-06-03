@@ -1,9 +1,10 @@
-import re
 import subprocess
-import time
-from sharpnet.classes import CacheData, Container
-from sharpnet.constants import TEST_SITE_CONF, DUMMY_CONF
+import logging
 from datetime import date
+
+from sharpnet.classes import CacheData
+from sharpnet.constants import DUMMY_CONF, TEST_SITE_CONF
+
 
 def cache_data(self, container, servers=None, mercy=None):
     """
@@ -23,10 +24,11 @@ def cache_data(self, container, servers=None, mercy=None):
     if mercy is not None:
         data.mercy = mercy
 
+    logging.debug("Data was cached for %s", container.name)
     self.cache[container.name] = data
 
 
-def ensure_loaded(self, config):
+def ensure_loaded(_, config):
     """
     Makes sure the sharpnet config from a container is valid
 
@@ -36,7 +38,7 @@ def ensure_loaded(self, config):
     with open(TEST_SITE_CONF, "w+") as file:
         file.write(config)
 
-    result = subprocess.run(["nginx", "-c", DUMMY_CONF, "-t"])
+    result = subprocess.run(["nginx", "-c", DUMMY_CONF, "-t"], check=False)
     if result.returncode != 0:
         return False
 
@@ -57,6 +59,7 @@ def refresh(self):
     self.servers = []
 
     if self.last_cert_check_date != date.today():
+        logging.debug("New Day!")
         self.last_cert_check_date = date.today()
         self.force = True
 

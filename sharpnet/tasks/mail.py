@@ -1,4 +1,4 @@
-import smtplib, ssl
+import smtplib
 import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -9,7 +9,8 @@ sender_email = SENDER_EMAIL
 receiver_email = RECEIVER_EMAIL
 password = os.environ.get("MAILPASS")
 
-def mail_error(self, container):
+
+def mail_error(_, container):
     """
     Allows for errors to be sent to developer over email.
     """
@@ -22,9 +23,11 @@ def mail_error(self, container):
     with open(HTMLFILE) as html:
         html = html.read()
 
-    text = f"""
-        There was an unexpected error in container {container.name}. <br><br> Is has been killed by the Sharpnet Instance. If you are running SharpCD, click the link below to be taken directly to the logs.
-    """
+    text = (
+        f"There was an unexpected error in container {container.name}. <br><br>"
+        "Is has been killed by the Sharpnet Instance. "
+        "If you are running SharpCD, click the link below to be taken directly to the logs."
+    )
 
     html = html.replace("XXXXX", text)
 

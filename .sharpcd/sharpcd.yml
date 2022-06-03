@@ -1,0 +1,10 @@
+version: 1
+
+tasks:
+  sharpnet:
+    name: SharpNet
+    type: docker
+    envfile: .env
+    sharpurl: https://mcaq.me:5666
+    giturl: https://raw.githubusercontent.com/Sharpz7/
+    compose: /sharpnet/master/docker-compose.yml
