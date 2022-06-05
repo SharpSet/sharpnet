@@ -27,7 +27,7 @@ Note that all of these are required
 | `RECEIVER_EMAIL` | str | The email you want on the certificates and to receive emails to |
 | `DOMAIN` | str | The domain all certificates will be linked to |
 
-## Installation
+## Installation (Just Docker)
 
 Download the docker-compose file, set your env vars and run the file!
 
