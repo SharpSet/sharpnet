@@ -4,7 +4,6 @@ services:
   sharpnet:
     hostname: sharpnet
     image: sharp6292/sharpnet
-
     restart: always
 
     ports:
