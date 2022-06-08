@@ -1,7 +1,7 @@
 import subprocess
 import re
 
-from sharpnet.constants import CERTBOT_COMMAND, DEV
+from sharpnet.constants import CERTBOT_COMMAND, DEV, DOMAIN
 
 
 def run_certbot(self):
@@ -12,7 +12,8 @@ def run_certbot(self):
     certbot_command = CERTBOT_COMMAND
 
     for server in self.servers:
-        certbot_command += (f" -d {server}")
+        if server != DOMAIN:
+            certbot_command += (f" -d {server}")
 
     if DEV:
         print(certbot_command)

@@ -42,6 +42,6 @@ else:
 
 
 CERTBOT_COMMAND = (
-    f"certbot --nginx --email {RECEIVER_EMAIL} --cert-name {DOMAIN} --agree-tos"
-    " --redirect --noninteractive --verbose"
+    f"certbot --nginx --email {RECEIVER_EMAIL} --agree-tos"
+    f" --redirect --noninteractive --verbose -d {DOMAIN}"
 )
