@@ -43,5 +43,5 @@ else:
 
 CERTBOT_COMMAND = (
     f"certbot --nginx --email {RECEIVER_EMAIL} --cert-name {DOMAIN} --agree-tos"
-    " --redirect --noninteractive --verbose --keep-until-expiring"
+    " --redirect --noninteractive --verbose --staging"
 )
