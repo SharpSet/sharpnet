@@ -18,7 +18,7 @@ def run_certbot(self):
         print(certbot_command)
 
     else:
-        result = subprocess.run("certbot renew", check=False)
+        result = subprocess.run(["certbot", "renew"], check=False)
         if result.returncode != 0:
             return False
 
