@@ -45,6 +45,9 @@ def ensure_loaded(_, config):
     else:
         return True
 
+    # Delete TEST_SITE_CONF file
+    subprocess.run(["rm", TEST_SITE_CONF], check=False)
+
 
 def refresh(self):
     """
