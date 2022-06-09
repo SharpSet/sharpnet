@@ -24,6 +24,15 @@ jobs:
             echo "RECEIVER_EMAIL=${RECEIVER_EMAIL}" >> .env
             echo "DOMAIN=${DOMAIN}" >> .env
 
+            echo "HTTP_PORT=80" > .env2
+            echo "HTTPS_PORT=443" >> .env2
+            echo "DEV=FALSE" >> .env2
+            echo "NETWORK=sharpnet" >> .env2
+            echo "MAILPASS=${MAILPASS}" >> .env2
+            echo "SENDER_EMAIL=${SENDER_EMAIL}" >> .env2
+            echo "RECEIVER_EMAIL=${RECEIVER_EMAIL}" >> .env2
+            echo "DOMAIN=${DOMAIN_CORP}" >> .env2
+
       - sharpcd/deploy
 
 workflows:
