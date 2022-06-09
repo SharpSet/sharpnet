@@ -15,10 +15,10 @@ def run_certbot(self):
         if server != DOMAIN:
             certbot_command += (f" -d {server}")
 
-    if DEV:
-        print(certbot_command)
+    print(certbot_command)
 
-    else:
+    if not DEV:
+
         result = subprocess.run(certbot_command.split(" "), check=False)
         if result.returncode != 0:
             return False
