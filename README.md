@@ -47,4 +47,4 @@ sharpcd --remotefile https://raw.githubusercontent.com/Sharpz7/sharpnet/master/.
 
 ## Maintainers
 
-- [Adam McArthur](https://adam.mcaq.me)
+- [Adam McArthur](https://mcaq.me)
