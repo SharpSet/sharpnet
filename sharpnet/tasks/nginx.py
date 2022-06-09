@@ -1,5 +1,6 @@
 import subprocess
 import re
+import copy
 
 from sharpnet.constants import CERTBOT_COMMAND, DEV, DOMAIN
 
@@ -11,9 +12,16 @@ def run_certbot(self):
 
     certbot_command = CERTBOT_COMMAND
 
-    for server in self.servers:
-        if server != DOMAIN:
-            certbot_command += (f" -d {server}")
+    servers = copy.deepcopy(self.servers)
+
+    if DOMAIN in servers:
+        servers.remove(DOMAIN)
+        servers.insert(0, DOMAIN)
+    else:
+        servers = sorted(servers)
+
+    for server in servers:
+        certbot_command += (f" -d {server}")
 
     print(certbot_command)
 
