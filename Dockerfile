@@ -12,6 +12,8 @@ RUN pip3 install \
     pipenv \
     certbot-nginx
 
+RUN mkdir -p /etc/nginx/test.d/
+
 COPY Pipfile Pipfile
 COPY Pipfile.lock Pipfile.lock
 RUN pipenv install --system

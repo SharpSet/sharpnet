@@ -10,7 +10,7 @@ SITE_CONF = (etc_nginx / "conf.d" / "site.conf").as_posix()
 DEFAULT_SITE_CONF = (etc_nginx / "conf.d" / "default.conf").as_posix()
 NGINX_CONF = (etc_nginx / "nginx.conf").as_posix()
 DUMMY_CONF = (etc_nginx / "dummy.conf").as_posix()
-TEST_SITE_CONF = (etc_nginx / "conf.d" / "test.conf").as_posix()
+TEST_SITE_CONF = (etc_nginx / "test.d" / "test.conf").as_posix()
 
 OPTIONS_SSL_NGINX_CONF = (letsencrypt / "options-ssl-nginx.conf").as_posix()
 
