@@ -6,7 +6,7 @@ tasks:
     type: docker
     envfile: .env
     sharpurl: https://mcaq.me:5666
-    giturl: https://raw.githubusercontent.com/Sharpz7/
+    giturl: https://raw.githubusercontent.com/SharpSet/
     compose: /sharpnet/master/docker-compose.yml
 
   sharpnet_corp:
@@ -14,5 +14,5 @@ tasks:
     type: docker
     envfile: .env2
     sharpurl: https://corporate1.mcaq.me:5666
-    giturl: https://raw.githubusercontent.com/Sharpz7/
+    giturl: https://raw.githubusercontent.com/SharpSet/
     compose: /sharpnet/master/docker-compose.yml

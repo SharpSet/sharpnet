@@ -1,6 +1,7 @@
-[![CircleCI](https://circleci.com/gh/Sharpz7/sharpnet/tree/master.svg?style=svg)](https://circleci.com/gh/Sharpz7/sharpnet/tree/master)
+[![CircleCI](https://circleci.com/gh/SharpSet/sharpnet/tree/master.svg?style=svg)](https://circleci.com/gh/SharpSet/sharpnet/tree/master)
 
-# SharpNet
+![Sharpnet](https://files.mcaq.me/39387.png)
+# Auto HTTPS with NGINX
 
 Sharpnet is a service that controls NGINX allowing for painless and automatic control of your websites and webapps with automatic SSL certification.
 
@@ -9,7 +10,7 @@ Sharpnet is a service that controls NGINX allowing for painless and automatic co
 ## Configuration
 
 Sharpnet is configured to be installed using a docker-compose file:
-Click [Here](https://github.com/Sharpz7/sharpnet/blob/master/docker-compose.yml) to see an example
+Click [Here](https://github.com/SharpSet/sharpnet/blob/master/docker-compose.yml) to see an example
 
 ## Enviroment Options
 
@@ -26,12 +27,6 @@ Note that all of these are required
 | `SENDER_EMAIL` | str | Must be a gmail email |
 | `RECEIVER_EMAIL` | str | The email you want on the certificates and to receive emails to |
 | `DOMAIN` | str | The domain all certificates will be linked to |
-
-## Installation (Just Docker)
-
-Download the docker-compose file, set your env vars and run the file!
-
-For seeing how to configue your websites and apps for sharpnet, please check my other public repositories with web-apps and websites to see examples.
 
 ## SharpCD Install
 
