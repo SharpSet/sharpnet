@@ -54,6 +54,9 @@ scripts:
   exec: |
     sudo docker-compose -f websites/docker-compose.yml exec -T sharpnet_test /bin/sh
 
+  nginx_conf:
+    sudo docker-compose -f websites/docker-compose.yml exec sharpnet_test cat /etc/nginx/conf.d/site.conf
+
   test: |
     sharpdev servertest 1
     sharpdev servertest 2
