@@ -1,7 +1,7 @@
 [![CircleCI](https://circleci.com/gh/SharpSet/sharpnet/tree/master.svg?style=svg)](https://circleci.com/gh/SharpSet/sharpnet/tree/master)
 
 ![Sharpnet](https://files.mcaq.me/39387.png)
-# Auto HTTPS with NGINX
+# Auto HTTPS and config with NGINX
 
 Sharpnet is a service that controls NGINX allowing for painless and automatic control of your websites and webapps with automatic SSL certification.
 
