@@ -26,12 +26,12 @@ def load(self):
     Loads Docker containers and activates certbot.
     """
 
-    config_changes = self.load_containers()
+    self.load_containers()
 
     if self.problem_container:
         self.set_error("Error Loading Container")
 
-    if self.containers_loaded and config_changes:
+    if self.containers_loaded:
 
         print("======================")
         certbot_success = self.run_certbot()
@@ -39,9 +39,6 @@ def load(self):
 
         if not certbot_success:
             self.set_error("Failed to Load Certbot")
-
-    if not config_changes:
-        print("No changes to config!\n")
 
     if self.error:
         self.handle_minor()

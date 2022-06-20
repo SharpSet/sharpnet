@@ -1,5 +1,4 @@
 import json
-import logging
 import subprocess
 
 from sharpnet.classes import Container
@@ -49,7 +48,7 @@ def load_containers(self):
         - adding all domains from the config into storage
     """
 
-    changes = False
+    configs = []
 
     for container in self.containers:
 
@@ -81,83 +80,19 @@ def load_containers(self):
                 print(err, config)
                 self.set_problem_container(container)
         else:
+            con_servers = self.find_servers(config)
+            if not con_servers:
+                self.set_problem_container(container)
+                continue
 
-            with open(SITE_CONF, 'r', encoding="utf-8") as full_config:
-                full_config = full_config.read()
-
-                con_servers = self.find_servers(config)
-                if not con_servers:
-                    self.set_problem_container(container)
-                    continue
-
-                print(f"Making sure {container.name} is ready.")
-                loaded = self.ensure_loaded(config)
+            print(f"Making sure {container.name} is ready.")
+            loaded = self.ensure_loaded(config)
 
         if loaded:
+            configs.append(config)
             print(f"Loaded container {container.name}'s' config")
             self.containers_loaded.append(container)
             self.cache_data(container, servers=con_servers)
-
-            # check if config has been previously loaded
-            if any(server in full_config for server in con_servers):
-                # Now we need to make sure that if the config
-                # has changed, that it is removed.
-                # Get the configs
-                old_configs = self.get_configs(full_config)
-
-                relavent_old_config = ""
-
-                # Find the one we are interested in
-                for old_config in old_configs:
-
-                    old_servers = self.find_servers(old_config)
-
-                    if sorted(old_servers) == sorted(con_servers):
-                        relavent_old_config = old_config
-                        break
-
-                # if relavent_old_config and config do not match
-                # remove config from full_config
-
-                configs_are_different = (
-                    relavent_old_config.replace("\n", "") != config.replace("\n", "")
-                )
-
-                configs_are_same = (
-                    relavent_old_config.replace("\n", "") == config.replace("\n", "")
-                )
-
-                if not relavent_old_config:
-                    print("Unable to find old config, adding new config")
-
-                elif relavent_old_config and configs_are_different:
-                    print(f"Removing old config from {container.name}")
-                    full_config = full_config.replace(relavent_old_config, "")
-
-                elif relavent_old_config and configs_are_same:
-                    print("Configuration has not changed... ignoring")
-                    logging.debug("The new config is the same as the old config")
-
-                else:
-                    print("ERROR - Something went wrong!")
-                    self.handle_major()
-
-            # If config is not already loaded...
-            if config not in full_config:
-                logging.debug("Config for %s was added.", container.name)
-                changes = True
-
-                full_config = full_config + "\n" + config + "\n"
-
-                # if first char is \n, remove it
-                if full_config[0] == "\n":
-                    full_config = full_config[1:]
-
-                with open(SITE_CONF, 'w+', encoding="utf-8") as out:
-                    out.write(full_config)
-
-            else:
-                logging.debug("Config for %s was already added.", container.name)
 
             for server in con_servers:
                 self.servers.append(server)
@@ -167,7 +102,15 @@ def load_containers(self):
             print(config)
             self.set_problem_container(container)
 
-    return changes
+    # empty SITE_CONF
+    with open(SITE_CONF, "w", encoding="utf-8") as f:
+        f.write("")
+
+    # write all configs to SITE_CONF
+    with open(SITE_CONF, "a", encoding="utf-8") as f:
+        for config in configs:
+            f.write(config)
+            f.write("\n")
 
 
 def kill(self, container):
