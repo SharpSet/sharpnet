@@ -1,7 +1,7 @@
 import time
 
 
-def handle_major(self):
+def handle_major(network):
     """
     Triggered if the error is considered major.
 
@@ -9,19 +9,19 @@ def handle_major(self):
 
     In most situations this will not create downtime
     """
-    if self.problem_container:
-        self.printing()
-        self.kill(self.problem_container)
+    if network.problem_container:
+        network.printing()
+        network.kill(network.problem_container)
 
     else:
         print("No problem containers but error raised!")
 
-    self.problem_container = None
-    self.error = None
-    self.force = True
+    network.problem_container = None
+    network.error = None
+    network.force = True
 
 
-def handle_minor(self):
+def handle_minor(network):
     """
     Triggered when a loop error is considered minor.
 
@@ -30,35 +30,35 @@ def handle_minor(self):
     After this "mercy" run, the error will be treated as major.
     """
 
-    if self.problem_container:
-        self.printing()
-        cache = self.cache.get(self.problem_container.name)
+    if network.problem_container:
+        network.printing()
+        cache = network.cache.get(network.problem_container.name)
         if cache and not cache.mercy:
-            print(f"Container {self.problem_container.name} used mercy run...\n")
-            self.kill(self.problem_container)
+            print(f"Container {network.problem_container.name} used mercy run...\n")
+            network.kill(network.problem_container)
 
         else:
             print(
-                f"Container {self.problem_container.name} will be will have a single mercy run..."
+                f"Container {network.problem_container.name} will be will have a single mercy run..."
             )
             print("Sleeping for 15 seconds!")
             time.sleep(15)
-            self.cache_data(self.problem_container, mercy=False)
-            self.load()
+            network.cache_data(network.problem_container, mercy=False)
+            network.load()
 
     else:
         print("No problem containers but error raised!")
-        self.force = True
+        network.force = True
 
-    self.problem_container = None
-    self.error = None
+    network.problem_container = None
+    network.error = None
 
 
-def printing(self):
+def printing(network):
     """
     Prints the current state of the containers
     """
 
-    print(f"ERRORS FOUND [{self.problem_container.name}]")
+    print(f"ERRORS FOUND [{network.problem_container.name}]")
     print("======================")
-    print(f"[{self.error}]")
+    print(f"[{network.error}]")

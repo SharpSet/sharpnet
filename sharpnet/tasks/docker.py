@@ -5,16 +5,14 @@ from sharpnet.classes import Container
 from sharpnet.constants import SITE_CONF, NETWORK
 
 
-def get_containers(self):
+def get_containers(network):
     """
     Gets all containers on sharpnet network
 
     Also sets all new containers
     """
 
-    format_json = (
-        '{"Name":"{{.Names}}","State":"{{.State}}"}'
-    )
+    format_json = '{"Name":"{{.Names}}","State":"{{.State}}"}'
     out = subprocess.check_output(
         ["docker", "ps", "--filter", f"network={NETWORK}", "--format", f"{format_json}"]
     )
@@ -30,14 +28,16 @@ def get_containers(self):
         host = "sharpnet" in con_dict["Name"]
 
         if running and not host:
-            self.containers.append(container)
+            network.containers.append(container)
 
-    self.new_containers = [
-        container for container in self.containers if container not in self.containers_last
+    network.new_containers = [
+        container
+        for container in network.containers
+        if container not in network.containers_last
     ]
 
 
-def load_containers(self):
+def load_containers(network):
 
     """
     Attempts to "load" all containers that were found.
@@ -50,7 +50,7 @@ def load_containers(self):
 
     configs = []
 
-    for container in self.containers:
+    for container in network.containers:
 
         print(f"\n** [LOADING {container.name}] **")
 
@@ -62,7 +62,7 @@ def load_containers(self):
             ["sh", "-c", f"docker exec {container.name} cat /sharpnet/nginx.conf"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            check=False
+            check=False,
         )
 
         config = result.stdout.decode("utf-8")
@@ -78,29 +78,29 @@ def load_containers(self):
             else:
                 print(f"Error in {container.name} not recognized, attempting to skip")
                 print(err, config)
-                self.set_problem_container(container)
+                network.set_problem_container(container)
         else:
-            con_servers = self.find_servers(config)
+            con_servers = network.find_servers(config)
             if not con_servers:
-                self.set_problem_container(container)
+                network.set_problem_container(container)
                 continue
 
             print(f"Making sure {container.name} is ready.")
-            loaded = self.ensure_loaded(config)
+            loaded = network.ensure_loaded(config)
 
         if loaded:
             configs.append(config)
             print(f"Loaded container {container.name}'s' config")
-            self.containers_loaded.append(container)
-            self.cache_data(container, servers=con_servers)
+            network.containers_loaded.append(container)
+            network.cache_data(container, servers=con_servers)
 
             for server in con_servers:
-                self.servers.append(server)
+                network.servers.append(server)
 
         if not loaded and not ignoring:
             print(f"Failed to load {container.name}'s' config")
             print(config)
-            self.set_problem_container(container)
+            network.set_problem_container(container)
 
     # empty SITE_CONF
     with open(SITE_CONF, "w", encoding="utf-8") as f:
@@ -113,7 +113,7 @@ def load_containers(self):
             f.write("\n")
 
 
-def kill(self, container):
+def kill(network, container):
     """
     Kills a container
     """
@@ -123,13 +123,13 @@ def kill(self, container):
         ["sh", "-c", f"docker stop {container.name}"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        check=False
+        check=False,
     )
 
     try:
-        self.containers.remove(container)
-        self.containers_loaded.remove(container)
+        network.containers.remove(container)
+        network.containers_loaded.remove(container)
     except ValueError:
         pass
     print(f"{container.name} was killed.\n")
-    self.mail_error(container)
+    network.mail_error(container)

@@ -1,4 +1,4 @@
-def run_cycle(self):
+def run_cycle(network):
     """
     Run Cycle that runs once every loop
     """
@@ -6,39 +6,39 @@ def run_cycle(self):
     print("Loading Containers")
     print("======================")
 
-    self.load()
+    network.load()
 
     print("Reloading Nginx")
     print("======================")
 
-    self.run_nginx()
+    network.run_nginx()
 
-    if self.error:
-        self.handle_major()
+    if network.error:
+        network.handle_major()
 
     print("\n======================")
     print("** SHARPNET ACTIVE **")
     print("======================\n")
 
 
-def load(self):
+def load(network):
     """
     Loads Docker containers and activates certbot.
     """
 
-    self.load_containers()
+    network.load_containers()
 
-    if self.problem_container:
-        self.set_error("Error Loading Container")
+    if network.problem_container:
+        network.set_error("Error Loading Container")
 
-    if self.containers_loaded:
+    if network.containers_loaded:
 
         print("======================")
-        certbot_success = self.run_certbot()
+        certbot_success = network.run_certbot()
         print("======================\n")
 
         if not certbot_success:
-            self.set_error("Failed to Load Certbot")
+            network.set_error("Failed to Load Certbot")
 
-    if self.error:
-        self.handle_minor()
+    if network.error:
+        network.handle_minor()

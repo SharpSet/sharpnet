@@ -5,14 +5,14 @@ import copy
 from sharpnet.constants import CERTBOT_COMMAND, DEV, DOMAIN
 
 
-def run_certbot(self):
+def run_certbot(network):
     """
     Uses all stored domains from sharpnet file to generate SSL certificates for each of them
     """
 
     certbot_command = CERTBOT_COMMAND
 
-    servers = copy.deepcopy(self.servers)
+    servers = copy.deepcopy(network.servers)
 
     if DOMAIN in servers:
         servers.remove(DOMAIN)
@@ -21,7 +21,7 @@ def run_certbot(self):
         servers = sorted(servers)
 
     for server in servers:
-        certbot_command += (f" -d {server}")
+        certbot_command += f" -d {server}"
 
     print(certbot_command)
 
@@ -34,7 +34,7 @@ def run_certbot(self):
     return True
 
 
-def run_nginx(self):
+def run_nginx(network):
     """
     Reloads nginx to install new sharpnet full config
     """
@@ -43,23 +43,23 @@ def run_nginx(self):
         ["service", "nginx", "reload"],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
-        check=False
+        check=False,
     )
 
     if result.returncode != 0:
-        self.set_error("Failed to run Nginx")
+        network.set_error("Failed to run Nginx")
 
 
-def find_servers(self, config):
+def find_servers(network, config):
     """
     Find all servers in a nginx configuartion using regex
     """
 
     con_servers = []
 
-    matches = re.findall('server_name(.*);', config)
+    matches = re.findall("server_name(.*);", config)
     if matches is None:
-        self.set_error("Failed to find any servers")
+        network.set_error("Failed to find any servers")
     else:
         for server in matches:
             for domain in server.strip().split(" "):
@@ -88,7 +88,7 @@ def get_configs(_, full_config):
             open_bracket -= 1
 
         if open_bracket == 0 and started:
-            configs.append(full_config[last_start_index:index + 1])
+            configs.append(full_config[last_start_index : index + 1])
             last_start_index = index + 1
             started = False
 

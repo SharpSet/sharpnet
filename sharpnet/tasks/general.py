@@ -6,14 +6,14 @@ from sharpnet.classes import CacheData
 from sharpnet.constants import DUMMY_CONF, TEST_SITE_CONF
 
 
-def cache_data(self, container, servers=None, mercy=None):
+def cache_data(network, container, servers=None, mercy=None):
     """
     Cache that stores data for a container
 
     This is used to make sure that the container is not a restarted on a mercy run
     """
 
-    data = self.cache.get(container.name)
+    data = network.cache.get(container.name)
 
     if data is None:
         data = CacheData()
@@ -25,7 +25,7 @@ def cache_data(self, container, servers=None, mercy=None):
         data.mercy = mercy
 
     logging.debug("Data was cached for %s", container.name)
-    self.cache[container.name] = data
+    network.cache[container.name] = data
 
 
 def ensure_loaded(_, config):
@@ -49,40 +49,40 @@ def ensure_loaded(_, config):
     subprocess.run(["rm", TEST_SITE_CONF], check=False)
 
 
-def refresh(self):
+def refresh(network):
     """
     Remove all data that is meant for one loop
 
     Check if network should update certs
     """
 
-    self.containers_last = self.containers
-    self.containers = []
-    self.containers_loaded = []
-    self.servers = []
+    network.containers_last = network.containers
+    network.containers = []
+    network.containers_loaded = []
+    network.servers = []
 
-    if self.last_cert_check_date != date.today():
+    if network.last_cert_check_date != date.today():
         logging.debug("New Day!")
-        self.last_cert_check_date = date.today()
-        self.force = True
+        network.last_cert_check_date = date.today()
+        network.force = True
 
 
-def set_problem_container(self, container):
+def set_problem_container(network, container):
     """
     Sets the current loops problem container
 
     If it is already set, it will not override.
     """
-    if not self.problem_container:
-        self.problem_container = container
+    if not network.problem_container:
+        network.problem_container = container
 
 
-def set_error(self, error):
+def set_error(network, error):
     """
     Sets the current loops error
 
     Will be used on its own if error not related to a container
     """
 
-    if not self.error:
-        self.error = error
+    if not network.error:
+        network.error = error

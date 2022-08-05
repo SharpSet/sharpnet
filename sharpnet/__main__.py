@@ -5,10 +5,17 @@ import time
 from shutil import copyfile
 
 from sharpnet import Sharpnet
-from sharpnet.constants import (DEFAULT_INDEX_PAGE, DEFAULT_PAGE, DUMMY_CONF,
-                                LOC_DUMMY_CONF, LOC_NGINX_CONF,
-                                LOC_OPTIONS_SSL_NGINX_CONF, NGINX_CONF,
-                                OPTIONS_SSL_NGINX_CONF, SITE_CONF)
+from sharpnet.constants import (
+    DEFAULT_INDEX_PAGE,
+    DEFAULT_PAGE,
+    DUMMY_CONF,
+    LOC_DUMMY_CONF,
+    LOC_NGINX_CONF,
+    LOC_OPTIONS_SSL_NGINX_CONF,
+    NGINX_CONF,
+    OPTIONS_SSL_NGINX_CONF,
+    SITE_CONF,
+)
 
 network = Sharpnet()
 
@@ -31,7 +38,7 @@ def loop():
         # If there has been a specific error, a force restart might be called
         if network.force:
             print("Forced to Run from scratch")
-            open(SITE_CONF, 'w', encoding="utf-8").close()
+            open(SITE_CONF, "w", encoding="utf-8").close()
             network.cache = {}
             network.force = False
             network.run_cycle()
@@ -45,7 +52,7 @@ if __name__ == "__main__":
     if os.environ.get("DEBUG_LOGGING") == "TRUE":
         logging.basicConfig(level=logging.DEBUG)
 
-    open(SITE_CONF, 'w', encoding="utf-8").close()
+    open(SITE_CONF, "w", encoding="utf-8").close()
 
     # Add a default index page
     copyfile(DEFAULT_INDEX_PAGE, DEFAULT_PAGE)

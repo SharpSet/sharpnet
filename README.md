@@ -7,6 +7,8 @@ Sharpnet is a service that controls NGINX allowing for painless and automatic co
 
 ![Example of Sharpnet (Diagram)](https://files.mcaq.me/c07c2.png)
 
+It is completely modular, allowing you to effectively have "plug and play" setup of websites and web apps!
+
 ## Configuration
 
 Sharpnet is configured to be installed using a docker-compose file:
