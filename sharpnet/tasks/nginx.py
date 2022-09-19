@@ -17,8 +17,9 @@ def run_certbot(network):
     if DOMAIN in servers:
         servers.remove(DOMAIN)
         servers.insert(0, DOMAIN)
-    else:
-        servers = sorted(servers)
+
+    # sort servers in alphabetical order
+    servers.sort()
 
     for server in servers:
         certbot_command += f" -d {server}"
