@@ -10,6 +10,9 @@ services:
       - "${HTTP_PORT:?err}:80"
       - "${HTTPS_PORT:?err}:443"
 
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
     environment:
       - "DEV=${DEV:?err}"
       - "MAILPASS=${MAILPASS:?err}"
