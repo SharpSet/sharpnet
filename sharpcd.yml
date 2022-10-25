@@ -15,4 +15,4 @@ tasks:
     envfile: .env2
     sharpurl: https://corporate1.mcaq.me:5666
     giturl: https://raw.githubusercontent.com/SharpSet/
-    compose: /sharpnet/master/docker-compose.yml
+    compose: /sharpnet/master/docker-compose.old.yml
