@@ -1,54 +1,24 @@
 version: 2.1
 
-orbs:
-  docker: sharptools/docker@volatile
-  sharpcd: sharptools/sharpcd@volatile
-
+# Builds are explicitly approved and do not publish mutable tags or call SharpCD.
+# Production uses locally built, dated images until deployment automation is replaced.
 jobs:
-  deploy:
-    docker:
-      - image: cimg/base:2020.01
-
+  build:
+    machine:
+      image: ubuntu-2404:current
     steps:
-      - sharpcd/install
-
+      - checkout
       - run:
-          name: "Setup Env"
-          command: |
-            echo "HTTP_PORT=80" > .env
-            echo "HTTPS_PORT=443" >> .env
-            echo "DEV=FALSE" >> .env
-            echo "NETWORK=sharpnet" >> .env
-            echo "MAILPASS=${MAILPASS}" >> .env
-            echo "SENDER_EMAIL=${SENDER_EMAIL}" >> .env
-            echo "RECEIVER_EMAIL=${RECEIVER_EMAIL}" >> .env
-            echo "DOMAIN=${DOMAIN}" >> .env
-
-            echo "HTTP_PORT=80" > .env2
-            echo "HTTPS_PORT=443" >> .env2
-            echo "DEV=FALSE" >> .env2
-            echo "NETWORK=sharpnet" >> .env2
-            echo "MAILPASS=${MAILPASS}" >> .env2
-            echo "SENDER_EMAIL=${SENDER_EMAIL}" >> .env2
-            echo "RECEIVER_EMAIL=${RECEIVER_EMAIL}" >> .env2
-            echo "DOMAIN=${DOMAIN_CORP}" >> .env2
-
-      - sharpcd/deploy
-
+          name: Build security-updated image
+          command: docker build --pull -t "local/security-check:${CIRCLE_SHA1}" .
+      - run:
+          name: Verify safe proxy reload behavior
+          command: docker run --rm --network none --entrypoint python3 -v "$PWD:/work:ro" -w /work "local/security-check:${CIRCLE_SHA1}" -m unittest discover -s tests -v
 workflows:
-  version: 2
-  workflow:
+  security-build:
     jobs:
-      - docker/build_wait:
-          context: General
-          image: sharp6292/sharpnet:latest
-
-
-      - deploy:
-          context: General
+      - approve-build:
+          type: approval
+      - build:
           requires:
-            - docker/build_wait
-
-          filters:
-            branches:
-              only: master
+            - approve-build

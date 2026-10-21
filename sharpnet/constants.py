@@ -33,11 +33,11 @@ if None in [SENDER_EMAIL, RECEIVER_EMAIL, DOMAIN]:
     quit()
 
 if os.environ.get("DEV") == "TRUE":
-    NETWORK = "sharpnet_testing"
+    NETWORK = os.environ.get("NETWORK", "sharpnet_testing")
     DEV = True
 
 else:
-    NETWORK = "sharpnet"
+    NETWORK = os.environ.get("NETWORK", "sharpnet")
     DEV = False
 
 
