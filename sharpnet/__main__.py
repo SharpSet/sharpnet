@@ -38,7 +38,6 @@ def loop():
         # If there has been a specific error, a force restart might be called
         if network.force:
             print("Forced to Run from scratch")
-            open(SITE_CONF, "w", encoding="utf-8").close()
             network.cache = {}
             network.force = False
             network.run_cycle()
@@ -52,7 +51,9 @@ if __name__ == "__main__":
     if os.environ.get("DEBUG_LOGGING") == "TRUE":
         logging.basicConfig(level=logging.DEBUG)
 
-    open(SITE_CONF, "w", encoding="utf-8").close()
+    # Retain persisted TLS routes across restarts and failed backend discovery.
+    if not os.path.exists(SITE_CONF):
+        open(SITE_CONF, "w", encoding="utf-8").close()
 
     # Add a default index page
     copyfile(DEFAULT_INDEX_PAGE, DEFAULT_PAGE)

@@ -3,7 +3,8 @@ version: "3"
 services:
   sharpnet:
     hostname: sharpnet
-    image: sharp6292/sharpnet
+    image: security-update/sharpnet:20261021
+    container_name: sharpnet_corp_sharpnet_1
     restart: always
 
     ports:
@@ -17,11 +18,9 @@ services:
       - "RECEIVER_EMAIL=${RECEIVER_EMAIL:?err}"
       - "DOMAIN=${DOMAIN:?err}"
 
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
     volumes:
       - certs:/etc/letsencrypt/
+      - "./config:/etc/nginx/conf.d"
       - "/var/run/docker.sock:/var/run/docker.sock"
 
 

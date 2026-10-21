@@ -1,6 +1,6 @@
 import subprocess
 import re
-import copy
+from pathlib import Path
 
 from sharpnet.constants import CERTBOT_COMMAND, DEV, DOMAIN
 
@@ -12,7 +12,7 @@ def run_certbot(network):
 
     certbot_command = CERTBOT_COMMAND
 
-    servers = copy.deepcopy(network.servers)
+    servers = sorted(set(network.servers))
 
     if DOMAIN in servers:
         servers.remove(DOMAIN)
@@ -41,12 +41,18 @@ def run_nginx(network):
     """
 
     result = subprocess.run(
-        ["service", "nginx", "reload"],
+        ["nginx", "-t"],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
         check=False,
     )
 
+    if result.returncode != 0:
+        network.set_error("Failed to run Nginx")
+        return
+
+    command = ["nginx", "-s", "reload"] if Path("/run/nginx.pid").exists() else ["nginx"]
+    result = subprocess.run(command, check=False)
     if result.returncode != 0:
         network.set_error("Failed to run Nginx")
 
