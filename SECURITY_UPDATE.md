@@ -1,6 +1,6 @@
 # Docker security refresh — 2026-10-21
 
-Build locally with `docker build --pull -t security-update/IMAGE:20261021 .` (replace IMAGE with this repository's image name). Production Compose uses the dated local tag and preserves its existing container name. Use the existing Compose project name and environment file when recreating services; do not run a blanket `down`, remove volumes, or start unrelated projects.
+Build locally with `docker build --pull --no-cache -t security-update/IMAGE:20261021 .` (replace IMAGE with this repository's image name). Production Compose uses the dated local tag and preserves its existing container name. Use the existing Compose project name and environment file when recreating services; do not run a blanket `down`, remove volumes, or start unrelated projects.
 
 CircleCI now requires manual approval for a build and neither publishes mutable tags nor calls the legacy SharpCD deployment endpoint. Merge this configuration before resuming automated builds. The older default-branch configuration remains active until this change is merged.
 

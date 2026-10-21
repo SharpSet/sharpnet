@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run:
           name: Build security-updated image
-          command: docker build --pull -t "local/security-check:${CIRCLE_SHA1}" .
+          command: docker build --pull --no-cache -t "local/security-check:${CIRCLE_SHA1}" .
       - run:
           name: Verify safe proxy reload behavior
           command: docker run --rm --network none --entrypoint python3 -v "$PWD:/work:ro" -w /work "local/security-check:${CIRCLE_SHA1}" -m unittest discover -s tests -v
